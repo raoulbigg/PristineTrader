@@ -1,0 +1,82 @@
+
+
+{ "Iteration 6" : {
+    "Entry": [
+      "V top retracement that starts with a small bar.",
+      "V top retracement has min. 3 consecutive LL's (by wick or by close) or 3 red bars with no big gaps",
+      "Closes can't be far apart. Little to no consolidation in retracement.",
+      "Reversal bar (WRB, engulfing, Hammer) Above the 20ma, not below 55% of previous swing.",
+      "1 HH, price action is above r20ma. r10ma above r20ma and 200ma Can't be resistance when long or support when short.",
+      "Breakout move (powerful, momentum move and power (big bars) to the left) out of a base.",
+      "Market has > 100k of average volume with OK spread."
+    ],
+    "Stop-Loss": [
+      "1 tick below low of retracement."
+    ],
+    "Management": [
+      "Sell when first bar is in red zone + red color",
+      "TP: 115% of retracement.",
+      "Sell when big negative engulfing bar near entry.",
+      "BE when 95% of retracement is reached."
+    ]
+  }, "Iteration 5" : {
+    "Entry": [
+      "V top retracement that starts with a small bar.",
+      "V top retracement has min. 3 consecutive LL's (by wick or by close) or 3 red bars with no big gaps",
+      "Closes can't be far apart. Little to no consolidation in retracement.",
+      "Reversal bar (WRB, engulfing, Hammer) Above the 20ma, not below 55% of previous swing.",
+      "1 HH, price action is above r20ma, r10ma above r20ma and 200ma Can't be resistance when long or support when short.",
+      "Bull move (powerful, momentum move and power (big bars) to the left).",
+      "Market has > 100k of average volume with OK spread."
+    ],
+    "Stop-Loss": [
+      "1 tick below low of retracement."
+    ],
+    "Management": [
+      "Sell when first bar is in red zone + red color",
+      "Sell when 20ma close.",
+      "Sell when 10ma close after 100% of retracement.",
+      "Sell when WRB close far from 20ma and far from 10ma.",
+      "Sell when big gap far from 20ma and after 100% of swing",
+      "Add when RBI occurs above entry from the 10ma."
+    ]
+  }, "Iteration 4" : {
+    "Entry": [
+      "V top retracement that starts with a small bar.",
+      "V top retracement has min. 3 consecutive LL's (by wick or by close) or 3 red bars with no big gaps",
+      "Closes can't be far apart. Little to no consolidation in retracement.",
+      "Reversal bar (WRB, engulfing, Hammer) Above the 20ma, not below 55% of previous swing.",
+      "Price action is above r20ma, r50ma. 200ma Can't be resistance when long or support when short.",
+      "Bull move (powerful, momentum move and power (big bars) to the left).",
+      "Market has >100k of average volume with OK spread."
+    ],
+    "Stop-Loss": [
+      "1 tick below low of retracement."
+    ],
+    "Management": [
+      "20ma close.",
+      "10ma close after 100% of retracement.",
+      "WRB close far from 20ma and far from 10ma.",
+      "Big gap far from 20ma and after 100% of swing"
+    ]
+  },
+  "Iteration 3" : {
+    "Entry": [
+      "V top retracement that starts with a small bar.",
+      "V top retracement has 3 red bars with no big gaps",
+      "Reversal bar (WRB, engulfing, Hammer) Above the 20ma, not below 55% of previous swing.",
+      "Price action > r20ma > r50ma. 200ma Can't be resistance when long or support when short.",
+      "Bull move (powerful, momentum move and power (big bars) to the left).",
+      "Market has >100k of average volume with OK spread."
+    ],
+    "Stop-Loss": [
+      "1 tick below low of reversal bar."
+    ],
+    "Management": [
+      "20ma close.",
+      "10ma close after 100% of retracement.",
+      "WRB close far from 20ma and far from 10ma.",
+      "Big gap far from 20ma and after 100% of swing"
+    ]
+  }
+}

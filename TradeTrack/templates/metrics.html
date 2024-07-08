@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <ul class="nav">
+      <li><a href="/">Screener</a></li>
+      <li><a class="active" href="/metrics">Metrics</a></li>
+      <li><a href="/managements">Managements</a></li>
+    </ul>
+  </head>
+  <body>
+
+    <div class="wrapper">
+      <div class="equity_curve">
+          <canvas id="equity_curve"></canvas>
+      </div>
+      <div class="columned unrestricted">
+        <div class="change-header">
+          {% if filter and 'Management' in filter %}
+            <p>{{wins+losses}}/ 20 trades
+            {% if wins+losses < 20 %}
+              <b class="text-red">Can't make changes yet</b>
+            {% elif wins+losses >= 20 %}
+              <b class="text-green"> 20 trades completed</b>
+            {% endif %}</p>
+          {% endif %}
+        </div>
+
+        <div class="wins-losses">
+          {% if total_pnl > 0 %}
+            <p class="text-green">Total PNL: <b>${{total_pnl}}</b></p>
+          {% elif total_pnl < 0 %}
+            <p class="text-red">Total PNL: <b>${{total_pnl}}</b></p>
+          {% endif %}
+          <p>Win rate: <b>{{"%.2f"|format(wins/(wins+losses)*100)}}%</b></p>
+          <p>Total wins: <b>{{wins}}</b></p>
+          <p>Total losses: <b>{{losses}}</b></p>
+          <p>Total R: <b>{{"%.2f"|format(total_r)}}</b></p>
+          <p>Average R winning trade: <b>{{"%.2f"|format(average_winning_r)}}</b></p>
+          <p>Average R losing trade: <b>{{"%.2f"|format(average_losing_r)}}</b></p>
+          <p>Most active days:</p>
+          {% for day in days %}
+            <li>{{day[0]}}: {{day[1]}}</li><br>
+          {%endfor%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+    <br>
+    {% if filter %}
+      <p class="text-white">Current filter: <b>{{filter}}</b> <a class="clear-filter" href="/metrics">Clear</a></p>
+    {% endif %}
+    <a href="#add-trade-modal"><button>Add trade</button></a>
+    <div id="add-trade-modal" class="add-trade-modal">
+        <div class="modal__content">
+            <h3>Add trade:</h3>
+            <form action="/add_trade" method="POST">
+                <p>Ticker:</p>
+                <input type="text" name="ticker" placeholder="AAPL">
+                <p>Date of entry:</p>
+                <input type="text" name="date" placeholder="30-6-2024">
+                <p>Day of entry:</p>
+                <input type="text" name="day" placeholder="Tuesday">
+                <p>Timeframe:</p>
+                <input type="text" name="timeframe" placeholder="1D">
+                <p>Buy/ Sell:</p>
+                <input type="text" name="buy_sell" placeholder="Buy">
+                <p>Size:</p>
+                <input type="text" name="size" placeholder="160.5">
+                <p>Equity Risk:</p>
+                <input type="text" name="equity_risk" placeholder="42.00">
+                <p>Win/ Loss:</p>
+                <input type="text" name="win_loss" placeholder="Win">
+                <p>PNL:</p>
+                <input type="text" name="pnl" placeholder="10.50 or -10.50">
+                <p>Realised R:R:</p>
+                <input type="text" name="r_r" placeholder="1.45">
+                <p>Duration:</p>
+                <input type="text" name="duration" placeholder="2">
+                <p>Screenshot:</p>
+                <input type="text" name="screenshot" placeholder="https://tradingview.com/screenshot/1218jru2r2">
+                <p>Management number:</p>
+                <input type="text" name="management_number" placeholder="6">
+                <p>Reason to Sell:</p>
+                <input type="text" name="reason_to_sell" placeholder="TP">
+                <p>Mistake:</p>
+                <input type="text" name="mistake" placeholder="Hold on too long">
+                <p>Mentor feedback:</p>
+                <input type="text" name="mentor_feedback" placeholder="Good, quality buy setup">
+                <input type="text" name="trade_number" value="{{trades[-1][0]+1}}" hidden>
+                <input type="text" name="csv_file" value="{{file}}" hidden>
+
+                <input type="submit">
+            </form>
+            <a href="#" class="modal__close">&times;</a>
+        </div>
+    </div>
+    <table class="table-fill">
+    <thead>
+    <tr>
+      {% for column in columns %}
+        <th class="text-left"><a href="#{{column}}-modal" class="column-select">{{column}}</a></th>
+        <div id="{{column}}-modal" class="modal">
+            <div class="modal__content">
+                <h3>Filter {{column}}</h3>
+                <form action="#" method="POST">
+
+                    '{{column}}' 
+                    <select name="operator" id="operator">
+                      <option value="==">== (int)</option>
+                      <option value="<">< (int)</option>
+                      <option value=">">> (int)</option>
+                      <option value="contains">contains (string)</option>
+                      <option value="not contains">not contains (string)</option>
+                    </select> 
+                    <input type="text" name="value">
+                    <input type="text" name="column" value="{{column}}" hidden>
+
+                    <input type="submit">
+                </form>
+                <a href="#" class="modal__close">&times;</a>
+            </div>
+        </div>
+      {% endfor %}
+    </tr>
+    </thead>
+    <tbody class="table-hover">
+    {% for trade in trades %}
+      <tr>
+        {% for i in range(trade| length) %}
+            <td class="text-left">{{trade[i]}}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    
+  </body>
+
+</html>
+
+
+<script>
+    const labels = {{ symbols | tojson}};
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Profit/Loss',
+            borderColor: '#7f8fa6',
+            fill: false,
+            data: {{ equity_curve | tojson}},
+        }]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: { maintainAspectRatio: false,
+        tooltips: {
+          enabled: false,
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [{display: false}],
+          yAxes: [{display: true}],
+        }
+        }
+    };
+
+    const myChart = new Chart(
+        document.getElementById('equity_curve'),
+        config
+    );
+
+</script>

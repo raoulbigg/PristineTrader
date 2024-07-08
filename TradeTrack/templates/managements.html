@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <ul class="nav">
+      <li><a href="/">Screener</a></li>
+      <li><a href="/metrics">Metrics</a></li>
+      <li><a class="active" href="/managements">Managements</a></li>
+    </ul>
+  </head>
+  <body>
+    <h3 class="text-white"><b>The plan</b></h3>
+    <p class="text-white"><b>Markets to be traded</b>:
+    I will trade stocks on the NASDAQ and NYSE exchanges using IBKR as broker. </p>
+
+    <p class="text-white"><b>Days to trade</b>:
+    I will trade from monday until friday. (with exception of holidays and vacations)</p>
+
+
+    <p class="text-white"><b>Trading times</b>:
+    I will check the markets when the market opens (15:30)
+    During this time I will monitor my entries, set potential orders and alerts and monitor my trades.
+    It is possible that I am in a meeting during this time. I will perform the above after the meeting.</p>
+
+    <p class="text-white"><b>Charts</b>:
+    I will swing trade only on the 1D timeframe.</p>
+
+    <p class="text-white"><b>Indicators</b>:
+    I will only use the 10, 20 and 200sma.</p>
+
+    <p class="text-white"><b>Important</b>:
+    Your trading system only works when you are highly consequent.
+    Don't focus on outcomes of the trades.
+    Focus on the outcome of 20 consequent trades.</p>
+    <br><hr>
+   <div class="wrapper iterations">
+    {% for iteration in data %}
+      <div class="management-card">
+          <div class="header">
+            <p>{{iteration}}</p>
+          </div>
+            <div class="container">
+              <p>
+                <b>Entry:</b><br> 
+                {% for line in data[iteration]['Entry'] %}
+                 - {{line}} <br>
+                {% endfor %}
+              </p>
+              <p>
+                <b>Stop-Loss:</b><br> 
+                {% for line in data[iteration]['Stop-Loss'] %}
+                 - {{line}} <br>
+                {% endfor %}
+              </p>
+              <p>
+                <b>Management:</b><br> 
+                {% for line in data[iteration]['Management'] %}
+                 - {{line}} <br>
+                {% endfor %}
+                </p>
+            </div>
+            <br>
+          </div><br>
+    {% endfor %}
+    </div>
+  </body>
+
+</html>
