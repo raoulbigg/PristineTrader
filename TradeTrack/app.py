@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_file
 import os
 import pandas as pd
 import json
@@ -113,6 +113,9 @@ def playground():
 def playground_open(play):
     return redirect(url_for('metrics', play=play))
 
+@app.route('/trades_csv')
+def trades_csv():
+    return send_file('trades.csv')
 
 
 #Below are functions to calculate metrics
